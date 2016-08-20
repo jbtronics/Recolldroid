@@ -106,7 +106,7 @@ public class Connection {
       mOnComplete = q;
     }
 
-    public void setOnErroListener(onQueryError q)
+    public void setOnErrorListener(onQueryError q)
     {
         mOnError = q;
     }

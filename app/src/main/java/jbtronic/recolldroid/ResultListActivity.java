@@ -38,6 +38,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +81,11 @@ public class ResultListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.result_list);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this));
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,8 +94,6 @@ public class ResultListActivity extends AppCompatActivity
                 //        .setAction("Action", null).show();
                 //Connection con = new Connection("http://ras.pi/recoll",view.getContext());
                 //con.query("test");
-
-
             }
         });
 
@@ -177,6 +183,7 @@ public class ResultListActivity extends AppCompatActivity
             extends RecyclerView.Adapter<ResultItemRecyclerViewAdapter.ViewHolder> {
 
         private Query query;
+        private int lastPosition;
 
         public ResultItemRecyclerViewAdapter(Query query) {
             this.query = query;
@@ -194,7 +201,7 @@ public class ResultListActivity extends AppCompatActivity
             Result r = query.getResult(position);
             holder.mResult = r;
             holder.mTitle.setText(r.getHeader());
-            holder.mFolder.setText(r.getFolder());
+            holder.mFolder.setText(r.getFolder("file:///srv/usb/public/"));
             holder.mPreview.setText(Html.fromHtml(r.getFormattedSnippet())); //Other methods are API 24 or higher.
 
             if(r.getIpath().equals(""))
@@ -205,6 +212,8 @@ public class ResultListActivity extends AppCompatActivity
             {
                 holder.mIpath.setText(r.getIpath());
             }
+
+            setAnimation(holder.container, position);
 
             //holder.mContentView.setText(mValues.get(position).content);
 
@@ -232,6 +241,17 @@ public class ResultListActivity extends AppCompatActivity
             */
         }
 
+        private void setAnimation(View viewToAnimate, int position)
+        {
+            // If the bound view wasn't previously displayed on screen, it's animated
+            if (position > lastPosition)
+            {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+                viewToAnimate.startAnimation(animation);
+            }
+            lastPosition = position;
+        }
+
         @Override
         public int getItemCount() {
             return query.getResults().size();
@@ -243,6 +263,7 @@ public class ResultListActivity extends AppCompatActivity
             public TextView mPreview;
             public TextView mFolder;
             public TextView mIpath;
+            public LinearLayout container;
             public Result mResult;
 
             public ViewHolder(View view) {
@@ -252,6 +273,7 @@ public class ResultListActivity extends AppCompatActivity
                 mFolder = (TextView) view.findViewById(R.id.result_list_folder);
                 mPreview = (TextView) view.findViewById(R.id.result_list_preview);
                 mIpath = (TextView) view.findViewById(R.id.result_list_ipath);
+                container = (LinearLayout) view.findViewById(R.id.result_list_container);
                 mResult = null;
             }
 

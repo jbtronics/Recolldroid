@@ -168,10 +168,16 @@ public class Result {
         return filename;
     }
 
-    public String getFolder()
+    public String getFolder(String path)
     {
-        return "TODO";
-        //return ipath;
+        path = path.replace("\\","/");
+        if(path.charAt(path.length()-1) == '/')
+        {
+            path = path.substring(0,path.length() - 1);
+        }
+        String tmp = url.toString().replace(filename,"");
+        tmp = tmp.replace(path,"");
+        return tmp;
     }
 
     public String getFormattedSnippet()
