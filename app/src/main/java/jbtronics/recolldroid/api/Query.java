@@ -69,6 +69,22 @@ public class Query {
             dir = query.getString("dir");
             before = query.getString("before");
 
+            if(ascending_int==1) {
+                ascending=true;
+            }
+            else {
+                ascending=false;
+            }
+
+            switch(sort_str)
+            {
+                case "relevancyrating":
+                    sort = SortType.relevancyrating;
+                    break;
+                default:
+                    sort = SortType.unknown;
+            }
+
             this.results = new ArrayList<Result>();
 
             for(int i=0; i < results.length(); i++){
@@ -85,6 +101,12 @@ public class Query {
     public ArrayList<Result> getResults() {
         return results;
     }
+
+    public Result getResult(int index)
+    {
+        return results.get(index);
+    }
+
 
     public void addResult(Result result)
     {

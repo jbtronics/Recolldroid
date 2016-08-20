@@ -65,17 +65,17 @@ public class Result {
             filename = result.getString("filename");
             mtype = result.getString("mtype");
             ipath = result.getString("ipath");
-            fmtime = new Date(Long.parseLong(result.getString("fmtime")) * 1000); //Date expect timestamp in ms
+            fmtime = parseTime(result.getString("fmtime")); //Date expect timestamp in ms
             dbytes = FileSize.ParseString(result.getString("dbytes"));
             sig = result.getString("dbytes");
             keywords = result.getString("keywords");
-            mtime = new Date(Long.parseLong(result.getString("mtime")) * 1000); //Date expect timestamp in ms
-            dmtime = new Date(Long.parseLong(result.getString("dmtime")) * 1000); //Date expect timestamp in ms
+            mtime = parseTime(result.getString("mtime")); //Date expect timestamp in ms
+            dmtime = parseTime(result.getString("dmtime")); //Date expect timestamp in ms
             label = result.getString("label");
             origcharset = result.getString("origcharset");
             size = FileSize.ParseString(result.getString("size"));
 
-            String relevancy_str = result.getString("relevancy");
+            String relevancy_str = result.getString("relevancyrating");
             relevancy_str = relevancy_str.replace("%","").trim();
             relevancy = Integer.parseInt(relevancy_str);
         }
@@ -84,6 +84,18 @@ public class Result {
             Log.w("Result","Could not parse JSON", ex);
         } catch (MalformedURLException e) {
             Log.w("Result","Malformed URL", e);
+        }
+    }
+
+    private static Date parseTime(String s)
+    {
+        if(s.equals("") || s==null)
+        {
+            return null;
+        }
+        else
+        {
+            return new Date(Long.parseLong(s) * 1000);
         }
     }
 
@@ -151,7 +163,23 @@ public class Result {
         return origcharset;
     }
 
+    public String getHeader()
+    {
+        return filename;
+    }
 
+    public String getFolder()
+    {
+        return "TODO";
+        //return ipath;
+    }
+
+    public String getFormattedSnippet()
+    {
+        snippet = snippet.replace("<span class=\"search-result-highlight\">","<b>");
+        snippet = snippet.replace("</span>","</b>");
+        return snippet;
+    }
 
 
 

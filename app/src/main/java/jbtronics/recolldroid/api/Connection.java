@@ -75,7 +75,7 @@ public class Connection {
             return;
         }
 
-        String url = baseurl + "json/" + query;
+        String url = baseurl + "json" + query;
         downloadJson(url);
 
     }
@@ -101,6 +101,16 @@ public class Connection {
         queue.add(stringRequest);
     }
 
+    public void setOnCompleteListener(onQueryComplete q)
+    {
+      mOnComplete = q;
+    }
+
+    public void setOnErroListener(onQueryError q)
+    {
+        mOnError = q;
+    }
+
 
     private void parseQuery(String json)
     {
@@ -111,7 +121,9 @@ public class Connection {
                 JSONArray results = root.getJSONArray("results");
                 _query = new Query(query,results);
                 _finished = true;
-                mOnComplete.querycompleted(_query);
+                if(mOnComplete!=null) {
+                    mOnComplete.querycompleted(_query);
+                }
             }
         }
         catch (JSONException ex)

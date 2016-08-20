@@ -15,23 +15,40 @@
 
 package jbtronic.recolldroid;
 
+import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.Html;
 import android.view.LayoutInflater;
+
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.android.volley.VolleyError;
 
 import jbtronic.recolldroid.dummy.DummyContent;
+import jbtronics.recolldroid.api.Connection;
+import jbtronics.recolldroid.api.Query;
+import jbtronics.recolldroid.api.Result;
 
 import java.util.List;
 
@@ -43,7 +60,8 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class ResultListActivity extends AppCompatActivity {
+public class ResultListActivity extends AppCompatActivity
+    implements Connection.onQueryError{
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -64,14 +82,20 @@ public class ResultListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+                //Connection con = new Connection("http://ras.pi/recoll",view.getContext());
+                //con.query("test");
+
+
             }
         });
 
-        View recyclerView = findViewById(R.id.result_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        handleIntent(getIntent());
+
+        //View recyclerView = findViewById(R.id.result_list);
+        //assert recyclerView != null;
+        //setupRecyclerView((RecyclerView) recyclerView);
 
         if (findViewById(R.id.result_detail_container) != null) {
             // The detail container view will be present only in the
@@ -82,17 +106,80 @@ public class ResultListActivity extends AppCompatActivity {
         }
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView,Query q) {
+        recyclerView.setAdapter(new ResultItemRecyclerViewAdapter(q));
+    }
 
-        private final List<DummyContent.DummyItem> mValues;
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
-            mValues = items;
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+            final ProgressBar progressBar = (ProgressBar)  findViewById(R.id.progress_bar);
+            final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.result_list);
+
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+
+
+            Connection conn = new Connection("http://ras.pi/recoll",this);
+            conn.setOnCompleteListener(new Connection.onQueryComplete() {
+                @Override
+                public void querycompleted(Query q) {
+                    setupRecyclerView(recyclerView, q);
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+            });
+
+            conn.query(query);
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        SearchView searchView = (SearchView) findViewById(R.id.action_search);
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void queryerror(VolleyError error) {
+        Toast t = Toast.makeText(this,"Error loading results!",Toast.LENGTH_SHORT);
+    }
+
+
+    public class ResultItemRecyclerViewAdapter
+            extends RecyclerView.Adapter<ResultItemRecyclerViewAdapter.ViewHolder> {
+
+        private Query query;
+
+        public ResultItemRecyclerViewAdapter(Query query) {
+            this.query = query;
         }
 
         @Override
@@ -104,10 +191,24 @@ public class ResultListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            Result r = query.getResult(position);
+            holder.mResult = r;
+            holder.mTitle.setText(r.getHeader());
+            holder.mFolder.setText(r.getFolder());
+            holder.mPreview.setText(Html.fromHtml(r.getFormattedSnippet())); //Other methods are API 24 or higher.
 
+            if(r.getIpath().equals(""))
+            {
+                holder.mIpath.setVisibility(View.GONE);
+            }
+            else
+            {
+                holder.mIpath.setText(r.getIpath());
+            }
+
+            //holder.mContentView.setText(mValues.get(position).content);
+
+            /*
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -128,29 +229,35 @@ public class ResultListActivity extends AppCompatActivity {
                     }
                 }
             });
+            */
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return query.getResults().size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public View mView;
+            public TextView mTitle;
+            public TextView mPreview;
+            public TextView mFolder;
+            public TextView mIpath;
+            public Result mResult;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mTitle = (TextView) view.findViewById(R.id.result_list_title);
+                mFolder = (TextView) view.findViewById(R.id.result_list_folder);
+                mPreview = (TextView) view.findViewById(R.id.result_list_preview);
+                mIpath = (TextView) view.findViewById(R.id.result_list_ipath);
+                mResult = null;
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + " '" + mTitle.getText() + "'";
             }
         }
     }
