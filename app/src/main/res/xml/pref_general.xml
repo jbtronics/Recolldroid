@@ -1,0 +1,72 @@
+<!--
+  ~ Copyright (c) 2016 Jan Böhmer
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Server Connection"
+        android:key="pref_key_server_connection">
+
+        <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+        <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+        <EditTextPreference
+            android:capitalize="words"
+            android:defaultValue="http://ras.pi/recoll"
+            android:inputType="textCapWords"
+            android:key="pref_key_server_addr"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Server Address" />
+
+        <CheckBoxPreference
+            android:key="pref_key_auth_enable"
+            android:summary="Activate if server needs auth."
+            android:title="Authentication needed?"
+            android:defaultValue="false"
+            />
+
+        <EditTextPreference
+            android:dependency="pref_key_auth_enable"
+            android:key="pref_key_auth_user"
+            android:title="Username"
+            android:summary="Input your username" />
+
+        <EditTextPreference
+            android:dependency="pref_key_auth_enable"
+            android:title="Password"
+            android:key="pref_key_auth_pass"
+            android:summary="Input your Password"
+            android:inputType="textPassword"
+            android:password="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Paths"
+        android:key="pref_key_paths">
+
+        <EditTextPreference
+            android:capitalize="words"
+            android:defaultValue="file:///srv/usb/public/"
+            android:inputType="textCapWords"
+            android:key="pref_key_path_file"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="File Base Path"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

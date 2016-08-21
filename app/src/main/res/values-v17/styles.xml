@@ -14,13 +14,7 @@
   ~ limitations under the License.
   -->
 
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/result_list"
-    android:name="jbtronic.recolldroid.ResultListFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="jbtronic.recolldroid.ResultListActivity"
-    tools:listitem="@layout/result_list_content" />
+<resources>
+
+
+</resources>

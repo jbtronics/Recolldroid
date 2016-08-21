@@ -105,25 +105,31 @@ public class FileSize {
     public String toString(Integer precision)
     {
         Double tmp = 0.0;
+        String unit = "B";
         if(bytes_size>=0&&bytes_size<FACTOR_KB)
         {
             tmp = convertUnit("B");
+            unit = "B";
         }
         else if(bytes_size>=FACTOR_KB&&bytes_size<FACTOR_MB)
         {
             tmp = convertUnit("kB");
+            unit = "kB";
         }
         else if(bytes_size>=FACTOR_MB&&bytes_size<FACTOR_GB)
         {
             tmp = convertUnit("MB");
+            unit = "MB";
         }
         else if(bytes_size>=FACTOR_GB&&bytes_size<FACTOR_TB)
         {
             tmp = convertUnit("GB");
+            unit = "GB";
         }
         else if(bytes_size>=FACTOR_TB)
         {
             tmp = convertUnit("TB");
+            unit = "TB";
         }
 
         String format = "0.";
@@ -133,7 +139,9 @@ public class FileSize {
         }
         DecimalFormat df = new DecimalFormat(format);
         df.setRoundingMode(RoundingMode.CEILING);
-        return df.format(tmp);
+        String s = df.format(tmp);
+        s = s + " " + unit;
+        return s;
     }
 
     /**

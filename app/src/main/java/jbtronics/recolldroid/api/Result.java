@@ -25,6 +25,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
+import jbtronic.recolldroid.R;
+
 /**
  * Created by janhb on 18.08.2016.
  */
@@ -186,6 +188,153 @@ public class Result {
         snippet = snippet.replace("</span>","</b>");
         return snippet;
     }
+
+    /**
+     * Returns an resource file with the correct icon for this filetype.
+     * @return The icon for this filetype
+     */
+    public int getIconRes()
+    {
+        String ext = getExtension();
+        if(ext.equals("pdf") || ext.equals("ps"))   //PDF Docs
+        {
+            return R.drawable.type_pdf;
+        }
+        else if(ext.equals("doc") || ext.equals("docx") || ext.equals("docm") || ext.equals("odt"))  //Word
+        {
+            return R.drawable.type_word;
+        }
+        else if(ext.equals("xls") || ext.equals("xlsx") || ext.equals("xlsm") || ext.equals("ods"))  //Excel
+        {
+            return R.drawable.type_excel;
+        }
+        else if(ext.equals("ppt") || ext.equals("pptx") || ext.equals("pptm") || ext.equals("odp"))  //Powerpoint
+        {
+            return R.drawable.type_powerpoint;
+        }
+        else if(ext.equals("txt") || ext.equals("rtf") || ext.equals("rtf") || ext.equals("md") //Text
+                || ext.equals("tex") || ext.equals("csv") || ext.equals("conf") || ext.equals("chm"))
+        {
+            return R.drawable.type_text;
+        }
+        else if(ext.equals("mp3") || ext.equals("wav") || ext.equals("m4a") || ext.equals("ogg")    //Music
+                || ext.equals("aac") || ext.equals("wma") || ext.equals("aiff") || ext.equals("amr")
+                || ext.equals("flac") || ext.equals("m4b"))
+        {
+            return R.drawable.type_music;
+        }
+        else if(ext.equals("mp4") || ext.equals("wmv") || ext.equals("flv") || ext.equals("mkv")    //Videos
+                || ext.equals("vob") || ext.equals("mov") || ext.equals("yuv") || ext.equals("m4v")
+                || ext.equals("m4p") || ext.equals("asf") || ext.equals("mpg") || ext.equals("mpeg")
+                || ext.equals("m2v") || ext.equals("3gb") || ext.equals("webm"))
+        {
+            return R.drawable.type_video;
+        }
+        else if(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("gif") || ext.equals("png")   //Images
+                || ext.equals("raw") || ext.equals("dng") || ext.equals("bmp") || ext.equals("tiff")
+                || ext.equals("xcf") || ext.equals("tga"))
+        {
+            return R.drawable.type_image;
+        }
+        else if(ext.equals("zip") || ext.equals("rar") || ext.equals("7z") || ext.equals("tar")  //Archives
+                || ext.equals("tgz") || ext.equals("gz") || ext.equals("bz") || ext.equals("bz2")
+                || ext.equals("gz2") || ext.equals("lzma") || ext.equals("lz") || ext.equals("xz"))
+        {
+            return R.drawable.type_zip;
+        }
+        else if(ext.equals("htm") || ext.equals("html") || ext.equals("xml") || ext.equals("css") //Code
+                || ext.equals("js") || ext.equals("c") || ext.equals("cpp") || ext.equals("h")
+                || ext.equals("hpp") || ext.equals("java") || ext.equals("cs") || ext.equals("vb")
+                || ext.equals("py") || ext.equals("sh") || ext.equals("pl") || ext.equals("rb")
+                || ext.equals("class") || ext.equals("ino") || ext.equals("pde") || ext.equals("")
+                || ext.equals("cmd") || ext.equals("bat") || ext.equals("mk") || ext.equals("mod")
+                || ext.equals("xrb") || ext.equals("mm") || ext.equals("swift"))
+        {
+            return R.drawable.type_code;
+        }
+        else if(ext.equals("apk") || ext.equals("dex")) //Android files
+        {
+            return R.drawable.type_android;
+        }
+        else if(ext.equals("ipa") || ext.equals("plist") || ext.equals("ios"))   //Apple files
+        {
+            return R.drawable.type_apple;
+        }
+        else if(ext.equals("iso") || ext.equals("img") || ext.equals("cue") || ext.equals("vhd") //Image files
+                || ext.equals("vdi") || ext.equals("vdi") )
+        {
+            return R.drawable.type_disk;
+        }
+        else if(ext.equals("db") || ext.equals("sqlite") || ext.equals("sql"))       //Databases
+        {
+            return R.drawable.type_db;
+        }
+        else if(ext.equals("exe") || ext.equals("sys") || ext.equals("dll")    //Windows binaries
+            || ext.equals("cur") || ext.equals("ico") )
+        {
+            return R.drawable.type_windows;
+        }
+        else if(ext.equals("ko") || ext.equals("so") || ext.equals("a"))    //Linux binaries
+        {
+            return R.drawable.type_linux;
+        }
+        else if(ext.equals("accdb") || ext.equals("pub")) //other Office files
+        {
+            return R.drawable.type_office;
+        }
+        else if(ext.equals("blend") || ext.equals("3ds") || ext.equals("dxf") //Blender/3d Files
+                || ext.equals("wrl") || ext.equals("x3d"))
+        {
+            return R.drawable.type_blender;
+        }
+
+        else if(ext.equals("stl") || ext.equals("amf") || ext.equals("gcode")  //3D Printer /CNC files
+                || ext.equals("nc"))
+        {
+            return R.drawable.type_3d;
+        }
+        else if(ext.equals("onion"))    //An Egg for Easter ;)
+        {
+            return R.drawable.type_tor;
+        }
+        else if(ext.equals("dfw") || ext.equals("mathml") || ext.equals("nb") //Derive 6 files :)
+                || ext.equals("mat"))
+        {
+            return R.drawable.type_math;
+        }
+        else
+        {
+            return R.drawable.type_file;
+        }
+
+
+    }
+
+    /**
+     * Gets the extension of the result file. (without ".")
+     * @return The fileextension
+     */
+    public String getExtension()
+    {
+        String ext = "";
+        if(!ipath.equals(""))
+        {
+            int tmp = ipath.lastIndexOf(".");
+            ext = ipath.substring(tmp+1);
+        }
+        else
+        {
+            if(!filename.contains("."))
+            {
+                return "";
+            }
+            int tmp = filename.lastIndexOf(".");
+            ext = filename.substring(tmp+1);
+        }
+        return ext.toLowerCase();
+    }
+
+
 
 
 

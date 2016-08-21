@@ -48,8 +48,11 @@ public class Connection {
     private Query _query;
     private boolean _finished;
 
+    private String auth_user="";
+    private String auth_pass="";
+
     public interface onQueryComplete{ void querycompleted(Query q); }
-    public interface onQueryError{ void queryerror(VolleyError error);}
+    public interface onQueryError{ void queryerror(VolleyError error, Exception e);}
 
     public Connection(String url, Context context)
     {
@@ -60,6 +63,21 @@ public class Connection {
         {
             baseurl = baseurl + '/';
         }
+        auth_pass = "";
+        auth_user = "";
+    }
+
+    public Connection(String url, Context context, String user, String pass)
+    {
+        queue = Volley.newRequestQueue(context);
+        this.context = context;
+        baseurl = url;
+        if(baseurl.charAt(baseurl.length()-1)!='/')
+        {
+            baseurl = baseurl + '/';
+        }
+        auth_pass = pass;
+        auth_user = user;
     }
 
     public void query(String term)
@@ -72,6 +90,9 @@ public class Connection {
         catch (UnsupportedEncodingException e)
         {
             Log.e("Connection","Encoding not supported!",e);
+            if(mOnError != null) {
+                mOnError.queryerror(null, e);
+            }
             return;
         }
 
@@ -82,6 +103,7 @@ public class Connection {
 
     private void downloadJson(String url)
     {
+        /*
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -93,12 +115,33 @@ public class Connection {
             public void onErrorResponse(VolleyError error) {
                 Log.w("Connection","Error Downloading Json:" + error.getMessage());
                 if(mOnError != null) {
-                    mOnError.queryerror(error);
+                    mOnError.queryerror(error, null);
                 }
             }
         });
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        */
+
+        QueryRequest queryRequest = new QueryRequest(url, auth_user,auth_pass, new Response.Listener<Query>() {
+            @Override
+            public void onResponse(Query response) {
+                _query = response;
+                _finished = true;
+                if(mOnComplete!=null) {
+                    mOnComplete.querycompleted(_query);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.w("Connection","Error Downloading Json:" + error.getMessage());
+                if(mOnError != null) {
+                    mOnError.queryerror(error, null);
+                }
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(queryRequest);
     }
 
     public void setOnCompleteListener(onQueryComplete q)
@@ -129,6 +172,9 @@ public class Connection {
         catch (JSONException ex)
         {
             Log.w("Connection","Json Parse Exception: ",ex);
+            if(mOnError != null) {
+                mOnError.queryerror(null, ex);
+            }
         }
     }
 

@@ -16,6 +16,9 @@
 package jbtronic.recolldroid;
 
 import android.app.Activity;
+import android.content.ContentProvider;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import jbtronic.recolldroid.dummy.DummyContent;
+import jbtronics.recolldroid.api.Result;
 
 /**
  * A fragment representing a single Result detail screen.
@@ -42,7 +46,7 @@ public class ResultDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Result mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,12 +63,12 @@ public class ResultDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = QueryContentProvider.query.getResult(getArguments().getInt(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mItem.getFilename());
             }
         }
     }
@@ -76,7 +80,12 @@ public class ResultDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.result_detail)).setText(mItem.details);
+            //((TextView) rootView.findViewById(R.id.txt_detail_size)).setText(mItem.getSize().toString());
+            //((TextView) rootView.findViewById(R.id.txt_detail_author)).setText(mItem.getAuthor());
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String path = sharedPref.getString("pref_key_path_file", "");
+            //((TextView) rootView.findViewById(R.id.txt_detail_folder)).setText(mItem.getFolder(path));
+
         }
 
         return rootView;

@@ -19,7 +19,9 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -84,7 +87,8 @@ public class ResultListActivity extends AppCompatActivity
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.result_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this));
+        //mRecyclerView.addItemDecoration(new DividerItemDecoration(this));
+        //mRecyclerView.setHasFixedSize(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -98,10 +102,6 @@ public class ResultListActivity extends AppCompatActivity
         });
 
         handleIntent(getIntent());
-
-        //View recyclerView = findViewById(R.id.result_list);
-        //assert recyclerView != null;
-        //setupRecyclerView((RecyclerView) recyclerView);
 
         if (findViewById(R.id.result_detail_container) != null) {
             // The detail container view will be present only in the
@@ -127,6 +127,21 @@ public class ResultListActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView,Query q) {
         recyclerView.setAdapter(new ResultItemRecyclerViewAdapter(q));
     }
@@ -136,6 +151,7 @@ public class ResultListActivity extends AppCompatActivity
         handleIntent(intent);
     }
 
+    //Func for Handling search intents
     private void handleIntent(Intent intent) {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -147,16 +163,33 @@ public class ResultListActivity extends AppCompatActivity
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            String addr = sharedPref.getString("pref_key_server_addr", "");
+            Boolean auth = sharedPref.getBoolean("pref_key_auth_enable",false);
 
-            Connection conn = new Connection("http://ras.pi/recoll",this);
+            Connection conn;
+            if(auth)
+            {
+                String user = sharedPref.getString("pref_key_auth_user", "");
+                String pass = sharedPref.getString("pref_key_auth_pass","");
+                conn = new Connection(addr,this,user,pass);
+            }
+            else
+            {
+                conn = new Connection(addr,this);
+            }
+
             conn.setOnCompleteListener(new Connection.onQueryComplete() {
                 @Override
                 public void querycompleted(Query q) {
+                    QueryContentProvider.query = q;
                     setupRecyclerView(recyclerView, q);
                     progressBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
             });
+
+            conn.setOnErrorListener(this);
 
             conn.query(query);
 
@@ -174,8 +207,20 @@ public class ResultListActivity extends AppCompatActivity
     }
 
     @Override
-    public void queryerror(VolleyError error) {
-        Toast t = Toast.makeText(this,"Error loading results!",Toast.LENGTH_SHORT);
+    public void queryerror(VolleyError error, Exception e) {
+        final ProgressBar progressBar = (ProgressBar)  findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+
+        if(error!=null) {
+            Toast t = Toast.makeText(this, "Network Error" + error.getMessage() , Toast.LENGTH_SHORT);
+            t.show();
+        }
+
+        if(e!=null)
+        {
+            Toast t = Toast.makeText(this, "Network Error" + e.getMessage() , Toast.LENGTH_SHORT);
+            t.show();
+        }
     }
 
 
@@ -197,11 +242,17 @@ public class ResultListActivity extends AppCompatActivity
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             Result r = query.getResult(position);
             holder.mResult = r;
             holder.mTitle.setText(r.getHeader());
-            holder.mFolder.setText(r.getFolder("file:///srv/usb/public/"));
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            String path = sharedPref.getString("pref_key_path_file", "");
+
+            //holder.mIcon.setImageResource(r.getIconRes());
+            holder.mTitle.setCompoundDrawablesWithIntrinsicBounds( r.getIconRes(), 0, 0, 0);
+            holder.mFolder.setText(r.getFolder(path));
             holder.mPreview.setText(Html.fromHtml(r.getFormattedSnippet())); //Other methods are API 24 or higher.
 
             if(r.getIpath().equals(""))
@@ -215,15 +266,12 @@ public class ResultListActivity extends AppCompatActivity
 
             setAnimation(holder.container, position);
 
-            //holder.mContentView.setText(mValues.get(position).content);
-
-            /*
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ResultDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putInt(ResultDetailFragment.ARG_ITEM_ID, position);
                         ResultDetailFragment fragment = new ResultDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -232,13 +280,12 @@ public class ResultListActivity extends AppCompatActivity
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ResultDetailActivity.class);
-                        intent.putExtra(ResultDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(ResultDetailFragment.ARG_ITEM_ID, position);
 
                         context.startActivity(intent);
                     }
                 }
             });
-            */
         }
 
         private void setAnimation(View viewToAnimate, int position)
@@ -263,8 +310,9 @@ public class ResultListActivity extends AppCompatActivity
             public TextView mPreview;
             public TextView mFolder;
             public TextView mIpath;
-            public LinearLayout container;
+            public View container;
             public Result mResult;
+            //public ImageView mIcon;
 
             public ViewHolder(View view) {
                 super(view);
@@ -273,7 +321,9 @@ public class ResultListActivity extends AppCompatActivity
                 mFolder = (TextView) view.findViewById(R.id.result_list_folder);
                 mPreview = (TextView) view.findViewById(R.id.result_list_preview);
                 mIpath = (TextView) view.findViewById(R.id.result_list_ipath);
-                container = (LinearLayout) view.findViewById(R.id.result_list_container);
+                //mIcon = (ImageView) view.findViewById(R.id.result_list_type_icon);
+                //container = (LinearLayout) view.findViewById(R.id.result_list_container);
+                container =  view.findViewById(R.id.cv);
                 mResult = null;
             }
 

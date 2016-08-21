@@ -13,12 +13,192 @@
   ~ limitations under the License.
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/result_detail"
-    style="?android:attr/textAppearanceLarge"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="jbtronic.recolldroid.ResultDetailFragment" />
+    android:layout_height="match_parent">
+
+<!--
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="0,1"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="Folder:"
+                android:id="@+id/textView"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Result_Detail_right"
+                android:text="/folder/folder"
+                android:layout_column="1"
+                android:textAlignment="textEnd"
+                android:id="@+id/txt_detail_folder" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="Internal Path:"
+                android:id="@+id/textView3"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Very Very Long Long Text....."
+                android:id="@+id/txt_detail_ipath"
+                android:layout_column="1"
+                android:textAppearance="@style/Result_Detail_right"
+                android:gravity="right"
+                android:textAlignment="textEnd" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="File Size:"
+                android:id="@+id/textView4"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Result_Detail_right"
+                android:text="Medium Text"
+                android:id="@+id/txt_detail_size"
+                android:layout_column="1"
+                android:gravity="right"
+                android:textAlignment="textEnd" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="Title:"
+                android:id="@+id/textView5"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Result_Detail_right"
+                android:text="Medium Text"
+                android:id="@+id/txt_detail_title"
+                android:layout_column="1"
+                android:gravity="right"
+                android:textAlignment="textEnd" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="Author:"
+                android:id="@+id/textView6"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Result_Detail_right"
+                android:text="Medium Text"
+                android:id="@+id/txt_detail_author"
+                android:layout_column="1"
+                android:gravity="right"
+                android:textAlignment="textEnd" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="Label:"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Result_Detail_right"
+                android:text="Medium Text"
+                android:id="@+id/txt_detail_label"
+                android:layout_column="1"
+                android:gravity="right"
+                android:textAlignment="textEnd" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="Last time modified:"
+                android:id="@+id/textView2"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Result_Detail_right"
+                android:text="Medium Text"
+                android:id="@+id/txt_detail_modified"
+                android:layout_column="1"
+                android:gravity="right"
+                android:textAlignment="textEnd" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textAppearance="@style/Result_Detail_left"
+                android:text="Keywords:"
+                android:id="@+id/textView7"
+                android:layout_column="0"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Result_Detail_right"
+                android:text="Medium Text"
+                android:id="@+id/txt_detail_keywords"
+                android:layout_column="1"
+                android:gravity="right"
+                android:textAlignment="textEnd" />
+        </TableRow>
+    </TableLayout>
+    -->
+
+</RelativeLayout>
