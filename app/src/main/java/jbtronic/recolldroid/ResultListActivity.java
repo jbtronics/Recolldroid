@@ -15,26 +15,26 @@
 
 package jbtronic.recolldroid;
 
-import android.app.ProgressDialog;
+import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
-
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,21 +42,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.android.volley.VolleyError;
 
-import jbtronic.recolldroid.dummy.DummyContent;
-import jbtronics.recolldroid.api.Connection;
 import jbtronics.recolldroid.api.Query;
+import jbtronics.recolldroid.api.QueryOptions;
 import jbtronics.recolldroid.api.Result;
 
-import java.util.List;
+
 
 /**
  * An activity representing a list of Results. This activity
@@ -67,7 +66,7 @@ import java.util.List;
  * item details side-by-side using two vertical panes.
  */
 public class ResultListActivity extends AppCompatActivity
-    implements Connection.onQueryError{
+    implements Query.onQueryError{
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -84,20 +83,18 @@ public class ResultListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.result_list);
+        final TextView text = (TextView) findViewById(R.id.txt_result_text);
+        text.setVisibility(View.VISIBLE);
+
+        final RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.result_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(this));
-        //mRecyclerView.setHasFixedSize(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                //Connection con = new Connection("http://ras.pi/recoll",view.getContext());
-                //con.query("test");
+                mRecyclerView.smoothScrollToPosition(0);
             }
         });
 
@@ -143,7 +140,25 @@ public class ResultListActivity extends AppCompatActivity
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView,Query q) {
-        recyclerView.setAdapter(new ResultItemRecyclerViewAdapter(q));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        final ResultItemRecyclerViewAdapter r = new ResultItemRecyclerViewAdapter(q);
+
+        //Called if RecyclerView is on bottom
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                QueryContentProvider.query.setOnCompleteHandler(new Query.onQueryComplete() {
+                    @Override
+                    public void querycompleted(Query sender, int page) {
+                        r.notifyDataSetChanged();
+                    }
+                });
+                QueryContentProvider.query.loadNextPage();
+            }
+        });
+
+        recyclerView.setAdapter(r);
     }
 
     @Override
@@ -159,39 +174,47 @@ public class ResultListActivity extends AppCompatActivity
 
             final ProgressBar progressBar = (ProgressBar)  findViewById(R.id.progress_bar);
             final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.result_list);
+            final TextView text = (TextView) findViewById(R.id.txt_result_text);
 
+
+            text.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
             String addr = sharedPref.getString("pref_key_server_addr", "");
             Boolean auth = sharedPref.getBoolean("pref_key_auth_enable",false);
-
-            Connection conn;
+            QueryOptions options = new QueryOptions();
             if(auth)
             {
                 String user = sharedPref.getString("pref_key_auth_user", "");
                 String pass = sharedPref.getString("pref_key_auth_pass","");
-                conn = new Connection(addr,this,user,pass);
+                QueryContentProvider.query = new Query(addr,this,query,user,pass,options);
             }
             else
             {
-                conn = new Connection(addr,this);
+                QueryContentProvider.query = new Query(addr,this,query,options);
             }
 
-            conn.setOnCompleteListener(new Connection.onQueryComplete() {
+            QueryContentProvider.query.setOnCompleteHandler(new Query.onQueryComplete() {
                 @Override
-                public void querycompleted(Query q) {
-                    QueryContentProvider.query = q;
-                    setupRecyclerView(recyclerView, q);
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                public void querycompleted(Query sender, int page) {
+                    if(sender.getResults().size() == 0) //If got no results
+                    {
+                        text.setText("No Results!");
+                        text.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                    else {
+                        setupRecyclerView(recyclerView, sender);
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        Log.d("ResultListActivity", "Showing complete!");
+                    }
                 }
             });
-
-            conn.setOnErrorListener(this);
-
-            conn.query(query);
+            QueryContentProvider.query.setOnErrorHandler(this);
+            QueryContentProvider.query.makeQuery();
 
         }
     }
@@ -312,7 +335,8 @@ public class ResultListActivity extends AppCompatActivity
             public TextView mIpath;
             public View container;
             public Result mResult;
-            //public ImageView mIcon;
+            public Button btn_download;
+            public Button btn_preview;
 
             public ViewHolder(View view) {
                 super(view);
@@ -321,16 +345,134 @@ public class ResultListActivity extends AppCompatActivity
                 mFolder = (TextView) view.findViewById(R.id.result_list_folder);
                 mPreview = (TextView) view.findViewById(R.id.result_list_preview);
                 mIpath = (TextView) view.findViewById(R.id.result_list_ipath);
-                //mIcon = (ImageView) view.findViewById(R.id.result_list_type_icon);
-                //container = (LinearLayout) view.findViewById(R.id.result_list_container);
                 container =  view.findViewById(R.id.cv);
                 mResult = null;
+                btn_preview = (Button) view.findViewById(R.id.result_btn_preview);
+                btn_download = (Button) view.findViewById(R.id.result_btn_download);
+                setBtnHandlers();
             }
+
+            void setBtnHandlers()
+            {
+                btn_preview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String url = QueryContentProvider.query.getPreviewURL(mResult);
+
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ResultListActivity.this);
+                        Boolean external = sharedPref.getBoolean("pref_key_use_external_preview", false);
+
+                        if(!external) {
+                            showWebViewDialog(url);
+                        }
+                        else
+                        {
+                            openBrowser(url);
+                        }
+                    }
+                });
+
+                btn_download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String url = QueryContentProvider.query.getDownloadURL(mResult);
+                        downloadURL(url);
+                    }
+                });
+            }
+
+            public void downloadURL(String url)
+            {
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                DownloadManager.Request request = new DownloadManager.Request(
+                        Uri.parse(url));
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                dm.enqueue(request);
+            }
+
+            public void openBrowser(String url)
+            {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+
+            public void showWebViewDialog(String url)
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(ResultListActivity.this);
+                alert.setTitle("Preview");
+
+                WebView wv = new WebView(ResultListActivity.this);
+                wv.loadUrl(url);
+                wv.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                });
+
+                alert.setView(wv);
+                alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+            }
+
 
             @Override
             public String toString() {
                 return super.toString() + " '" + mTitle.getText() + "'";
             }
         }
+    }
+
+    public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
+        //public static String TAG = EndlessRecyclerOnScrollListener.class.getSimpleName();
+
+        private int previousTotal = 0; // The total number of items in the dataset after the last load
+        private boolean loading = true; // True if we are still waiting for the last set of data to load.
+        private int visibleThreshold = 10; // The minimum amount of items to have below your current scroll position before loading more.
+        int firstVisibleItem, visibleItemCount, totalItemCount;
+
+        private int current_page = 1;
+
+        private LinearLayoutManager mLinearLayoutManager;
+
+        public EndlessRecyclerOnScrollListener(LinearLayoutManager linearLayoutManager) {
+            this.mLinearLayoutManager = linearLayoutManager;
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            visibleItemCount = recyclerView.getChildCount();
+            totalItemCount = mLinearLayoutManager.getItemCount();
+            firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount)
+                    <= (firstVisibleItem + visibleThreshold)) {
+                // End has been reached
+
+                // Do something
+                current_page++;
+
+                onLoadMore(current_page);
+
+                loading = true;
+            }
+        }
+
+        public abstract void onLoadMore(int current_page);
     }
 }

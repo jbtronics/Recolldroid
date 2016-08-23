@@ -19,6 +19,15 @@ package jbtronics.recolldroid.api;
  * Created by janhb on 18.08.2016.
  */
 public enum SortType {
-    relevancyrating,
-    unknown
+    RELEVANCYRATING,
+    MTIME,
+    URL,
+    FILENAME,
+    FBYTES,
+    AUTHOR;
+
+    @Override
+    public String toString() {
+        return super.name().toLowerCase();
+    }
 }

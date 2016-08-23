@@ -69,4 +69,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="Preview and Download"
+        android:key="pref_key_behaviour">
+
+        <CheckBoxPreference
+            android:key="pref_key_use_external_preview"
+            android:title="External Browser for preview"
+            android:defaultValue="false"
+            />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

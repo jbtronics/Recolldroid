@@ -100,7 +100,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:text="Preview"
+                android:text="@string/preview"
                 android:id="@+id/result_btn_preview"
                 android:layout_column="0"
                 style="?android:attr/borderlessButtonStyle"
@@ -110,14 +110,14 @@
                 android:layout_width="match_parent" />
 
             <Button
-                android:text="Download"
-                android:id="@+id/button2"
+                android:id="@+id/result_btn_download"
                 android:layout_column="1"
                 android:layout_height="wrap_content"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_width="match_parent" />
+                android:layout_width="match_parent"
+                android:text="@string/download" />
         </TableRow>
     </TableLayout>
 

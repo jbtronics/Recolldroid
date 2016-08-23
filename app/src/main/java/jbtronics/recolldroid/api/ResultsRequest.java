@@ -16,12 +16,15 @@
 package jbtronics.recolldroid.api;
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 import org.json.JSONArray;
@@ -29,21 +32,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by janhb on 21.08.2016.
  */
-public class QueryRequest extends Request<Query> {
+public class ResultsRequest extends Request<ArrayList<Result>> {
 
     private boolean need_auth = false;
-    private final Response.Listener<Query> listener;
+    private final Listener<ArrayList<Result>> listener;
     private final Response.ErrorListener errorListener;
     private String user;
     private String pass;
 
-    public QueryRequest(String url, String user, String pass, Response.Listener<Query> listener, Response.ErrorListener errorListener)
+    public ResultsRequest(String url, String user, String pass, Listener<ArrayList<Result>> listener, Response.ErrorListener errorListener)
     {
         super(Method.GET, url, errorListener);
         this.listener = listener;
@@ -60,7 +65,7 @@ public class QueryRequest extends Request<Query> {
         }
     }
 
-    public QueryRequest(String url, Response.Listener<Query> listener, Response.ErrorListener errorListener)
+    public ResultsRequest(String url, Listener<ArrayList<Result>> listener, Response.ErrorListener errorListener)
     {
         super(Method.GET, url, errorListener);
         this.listener = listener;
@@ -69,7 +74,7 @@ public class QueryRequest extends Request<Query> {
     }
 
     @Override
-    protected Response<Query> parseNetworkResponse(NetworkResponse response) {
+    protected Response<ArrayList<Result>> parseNetworkResponse(NetworkResponse response) {
         try {
             String json = new String(
                     response.data,
@@ -79,8 +84,14 @@ public class QueryRequest extends Request<Query> {
                 JSONObject root = new JSONObject(json);
                 JSONObject query = root.getJSONObject("query");
                 JSONArray results = root.getJSONArray("results");
-                Query q = new Query(query, results);
-                return Response.success(q, HttpHeaderParser.parseCacheHeaders(response));
+                ArrayList<Result> list = new ArrayList<Result>();
+
+                for(int i=0; i < results.length();i++)
+                {
+                    Result tmp = new Result(results.getJSONObject(i));
+                    list.add(tmp);
+                }
+                return Response.success(list, HttpHeaderParser.parseCacheHeaders(response));
             }
             else
             {
@@ -96,9 +107,8 @@ public class QueryRequest extends Request<Query> {
     }
 
     @Override
-    protected void deliverResponse(Query response)
+    protected void deliverResponse(ArrayList<Result> response)
     {
-
         listener.onResponse(response);
     }
 

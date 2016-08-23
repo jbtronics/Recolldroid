@@ -53,6 +53,18 @@
 
         <include layout="@layout/result_list" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Please use search button to start a search!"
+            android:id="@+id/txt_result_text"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -61,7 +73,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/fab_up"
+        android:visibility="gone" />
 
 
 </android.support.design.widget.CoordinatorLayout>
