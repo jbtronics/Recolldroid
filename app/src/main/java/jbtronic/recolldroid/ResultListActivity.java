@@ -454,6 +454,17 @@ public class ResultListActivity extends AppCompatActivity
             totalItemCount = mLinearLayoutManager.getItemCount();
             firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
 
+            if(firstVisibleItem >= 1)    //Show ScrollUp Fab only after some items
+            {
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                fab.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                fab.setVisibility(View.GONE);
+            }
+
             if (loading) {
                 if (totalItemCount > previousTotal) {
                     loading = false;
