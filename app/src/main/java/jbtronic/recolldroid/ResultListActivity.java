@@ -50,6 +50,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.inscription.WhatsNewDialog;
 
 import jbtronics.recolldroid.api.Query;
 import jbtronics.recolldroid.api.QueryOptions;
@@ -107,6 +108,9 @@ public class ResultListActivity extends AppCompatActivity
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        final WhatsNewDialog whatsNewDialog = new WhatsNewDialog(this);
+        whatsNewDialog.show();
     }
 
     @Override

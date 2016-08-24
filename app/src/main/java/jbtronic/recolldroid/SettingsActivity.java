@@ -36,7 +36,16 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
+import com.inscription.ChangeLogDialog;
+import com.inscription.CreditsDialog;
+
 import java.util.List;
+
+import de.psdev.licensesdialog.LicensesDialog;
+import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
+import de.psdev.licensesdialog.licenses.SILOpenFontLicense11;
+import de.psdev.licensesdialog.model.Notice;
+import de.psdev.licensesdialog.model.Notices;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -233,12 +242,47 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_info);
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringto
-            // ne preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+            Preference credits = findPreference("pref_action_credits");
+            credits.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    CreditsDialog _dialog = new CreditsDialog(getActivity());
+                    _dialog.show();
+                    return true;
+                }
+            });
+
+            Preference changeLog = findPreference("pref_action_changelog");
+            changeLog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ChangeLogDialog _dialog = new ChangeLogDialog(getActivity());
+                    _dialog.show();
+                    return true;
+                }
+            });
+
+
+            Preference licenses = findPreference("pref_action_licenses");
+            licenses.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    final Notices notices = new Notices();
+                    notices.addNotice(new Notice("Recolldroid", "https://github.com/do9jhb/Recolldroid", "Jan Böhmer", new ApacheSoftwareLicense20()));
+                    notices.addNotice(new Notice("Inscription", "https://github.com/MartinvanZ/Inscription", "Martin van Zuilekom", new ApacheSoftwareLicense20()));
+                    notices.addNotice(new Notice("LicensesDialog","https://github.com/PSDev/LicensesDialog","Philip Schiffer", new ApacheSoftwareLicense20()));
+                    notices.addNotice(new Notice("Icons","https://materialdesignicons.com/","Austin Andrews and Google", new SILOpenFontLicense11()));
+
+                    new LicensesDialog.Builder(getActivity())
+                            .setNotices(notices)
+                            .setIncludeOwnLicense(true)
+                            .build()
+                            .show();
+
+                    return true;
+                }
+            });
         }
 
         @Override

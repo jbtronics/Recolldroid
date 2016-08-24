@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Jan Böhmer
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<credits>
+    <section title="WiFi-Sinus">
+        <function title="Created by">
+            <credit>Jan Boehmer (jbtronics)</credit>
+        </function>
+    </section>
+    <websites>
+        <url title="WiFi-Sinus on Github">https://github.com/do9jhb/WiFi-Sinus-Generator-android</url>
+        <url title="WiFi-Sinus ESP8266 Source">https://github.com/do9jhb/WiFI-Sinus-Gen</url>
+    </websites>
+    <copyright>(c) 2016 Jan Boehmer. Licensed under the Apache License, Version 2.0 (the "License").<url>http://www.apache.org/licenses/LICENSE-2.0</url></copyright>
+    <section title="Inscription">
+        <function title="Created by">
+            <credit>Martin van Zuilekom</credit>
+        </function>
+        <function title="Code contribution">
+            <credit>Mirko Dimartino (Mirko ddd)</credit>
+            <credit>Hameno</credit>
+            <credit>Pepyakin</credit>
+        </function>
+    </section>
+    <websites>
+        <url title="Inscription on Github">https://github.com/MartinvanZ/Inscription</url>
+    </websites>
+    <copyright>(c) 2013 Martin van Zuilekom. Licensed under the Apache License, Version 2.0 (the "License").<url>http://www.apache.org/licenses/LICENSE-2.0</url></copyright>
+
+    <section title="Logo">
+        <function title="Created by">
+            <credit>Jan Boehmer</credit>
+        </function>
+        <function title="Created with">
+            <credit>Launcer Icon Creator from Android Asset Studio</credit>
+            <credit>License: CC BY 3.0</credit>
+        </function>
+    </section>
+    <websites>
+        <url title="Android Asset Studio">https://romannurik.github.io/AndroidAssetStudio/</url>
+    </websites>
+
+    <section title="Icons">
+        <function title="Material Design">
+            <credit>Copyright (c) 2014, Austin Andrews</credit>
+            <credit>Copyright (c) 2014, Google</credit>
+            <credit>License: SIL OPEN FONT LICENSE Version 1.1 </credit>
+        </function>
+    </section>
+    <websites>
+        <url title="Material Design Icons">https://materialdesignicons.com/</url>
+    </websites>
+
+
+
+
+
+</credits>

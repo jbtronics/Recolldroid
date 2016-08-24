@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Recolldroid.iml" filepath="$PROJECT_DIR$/Recolldroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inscription/inscription.iml" filepath="$PROJECT_DIR$/inscription/inscription.iml" />
     </modules>
   </component>
 </project>
