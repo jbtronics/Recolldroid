@@ -56,12 +56,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_view"
+        android:src="@drawable/type_file_white"
         app:layout_anchor="@+id/result_detail_container"
         app:layout_anchorGravity="top|end" />
 

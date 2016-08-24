@@ -42,6 +42,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -239,6 +240,10 @@ public class ResultListActivity extends AppCompatActivity
         progressBar.setVisibility(View.GONE);
 
         if(error!=null) {
+            if(error.getClass() == com.android.volley.AuthFailureError.class )
+            {
+                Toast t = Toast.makeText(this, "Auth Error: " + error.getCause().toString() , Toast.LENGTH_SHORT);
+            }
             Toast t = Toast.makeText(this, "Network Error" + error.getMessage() , Toast.LENGTH_SHORT);
             t.show();
         }
@@ -415,6 +420,14 @@ public class ResultListActivity extends AppCompatActivity
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
                         view.loadUrl(url);
                         return true;
+                    }
+
+                    @Override
+                    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                        String user = sharedPref.getString("pref_key_auth_user", "");
+                        String pass = sharedPref.getString("pref_key_auth_pass","");
+                        handler.proceed(user, pass);
                     }
                 });
 

@@ -49,7 +49,7 @@ public class Query {
     private Boolean complete;
 
 
-    public Query(String url, Context context, String user, String pass, String term)
+    public Query(String url, Context context, String term, String user, String pass)
     {
         queue = Volley.newRequestQueue(context);
         this.context = context;
@@ -67,7 +67,7 @@ public class Query {
         results = new ArrayList<>();
     }
 
-    public Query(String url, Context context,String user, String pass, String term, QueryOptions options) {
+    public Query(String url, Context context,String term, String user, String pass, QueryOptions options) {
         queue = Volley.newRequestQueue(context);
         this.context = context;
         baseurl = url;

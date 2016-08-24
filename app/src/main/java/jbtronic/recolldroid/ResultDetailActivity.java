@@ -41,7 +41,7 @@ public class ResultDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_result);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

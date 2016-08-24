@@ -12,193 +12,181 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="0,1"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="Folder:"
-                android:id="@+id/textView"
-                android:layout_column="0"
-                android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Filename"
+        android:id="@+id/view_result_filename"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Result_Detail_right"
-                android:text="/folder/folder"
-                android:layout_column="1"
-                android:textAlignment="textEnd"
-                android:id="@+id/txt_detail_folder" />
-        </TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/txt_result_filename"
+        android:layout_below="@+id/view_result_filename"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Title:"
+        android:id="@+id/view_result_title"
+        android:layout_below="@+id/txt_result_filename"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="Internal Path:"
-                android:id="@+id/textView3"
-                android:layout_column="0"
-                android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/txt_result_title"
+        android:layout_below="@+id/view_result_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Very Very Long Long Text....."
-                android:id="@+id/txt_detail_ipath"
-                android:layout_column="1"
-                android:textAppearance="@style/Result_Detail_right"
-                android:gravity="right"
-                android:textAlignment="textEnd" />
-        </TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Author"
+        android:id="@+id/view_result_author"
+        android:layout_below="@+id/txt_result_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/txt_result_author"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_result_author"
+        android:layout_alignParentLeft="true" />
 
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="File Size:"
-                android:id="@+id/textView4"
-                android:layout_column="0"
-                android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Abstract"
+        android:id="@+id/view_result_abstract"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_result_author" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Result_Detail_right"
-                android:text="Medium Text"
-                android:id="@+id/txt_detail_size"
-                android:layout_column="1"
-                android:gravity="right"
-                android:textAlignment="textEnd" />
-        </TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="abstract"
+        android:id="@+id/txt_result_abstract"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_result_abstract"
+        android:layout_alignParentLeft="true" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Internal path:"
+        android:id="@+id/view_result_ipath"
+        android:layout_below="@+id/txt_result_abstract"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="Title:"
-                android:id="@+id/textView5"
-                android:layout_column="0"
-                android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="abstract"
+        android:id="@+id/txt_result_ipath"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_result_ipath"
+        android:layout_alignParentLeft="true" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Result_Detail_right"
-                android:text="Medium Text"
-                android:id="@+id/txt_detail_title"
-                android:layout_column="1"
-                android:gravity="right"
-                android:textAlignment="textEnd" />
-        </TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Folder"
+        android:id="@+id/view_result_folder"
+        android:layout_below="@+id/txt_result_ipath"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="abstract"
+        android:id="@+id/txt_result_folder"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_result_folder"
+        android:layout_alignParentLeft="true" />
 
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="Author:"
-                android:id="@+id/textView6"
-                android:layout_column="0"
-                android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Filesize:"
+        android:id="@+id/view_result_size"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_result_folder" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Result_Detail_right"
-                android:text="Medium Text"
-                android:id="@+id/txt_detail_author"
-                android:layout_column="1"
-                android:gravity="right"
-                android:textAlignment="textEnd" />
-        </TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="abstract"
+        android:id="@+id/txt_result_size"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/view_result_size" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Last Modified"
+        android:id="@+id/view_result_lastmod"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_result_size" />
 
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="Label:"
-                android:layout_column="0"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Result_Detail_right"
-                android:text="Medium Text"
-                android:id="@+id/txt_detail_label"
-                android:layout_column="1"
-                android:gravity="right"
-                android:textAlignment="textEnd" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="Last time modified:"
-                android:id="@+id/textView2"
-                android:layout_column="0"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Result_Detail_right"
-                android:text="Medium Text"
-                android:id="@+id/txt_detail_modified"
-                android:layout_column="1"
-                android:gravity="right"
-                android:textAlignment="textEnd" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:textAppearance="@style/Result_Detail_left"
-                android:text="Keywords:"
-                android:id="@+id/textView7"
-                android:layout_column="0"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Result_Detail_right"
-                android:text="Medium Text"
-                android:id="@+id/txt_detail_keywords"
-                android:layout_column="1"
-                android:gravity="right"
-                android:textAlignment="textEnd" />
-        </TableRow>
-    </TableLayout>
-    -->
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="abstract"
+        android:id="@+id/txt_result_lastmod"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/view_result_lastmod" />
 </RelativeLayout>
+
+</ScrollView>
+
+</FrameLayout>

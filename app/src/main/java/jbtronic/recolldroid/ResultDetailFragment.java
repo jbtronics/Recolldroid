@@ -17,13 +17,20 @@ package jbtronic.recolldroid;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import jbtronics.recolldroid.api.Result;
 
@@ -64,8 +71,12 @@ public class ResultDetailFragment extends Fragment {
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab_result);
+            //fab.setImageResource(mItem.getIconRes());
+            //fab.setBackgroundColor(getResources().getColor(R.color.colorDetailFab));
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getFilename());
+                //appBarLayout.setTitle(mItem.getFilename());
+                appBarLayout.setTitle(mItem.getLabel());
             }
         }
     }
@@ -81,7 +92,14 @@ public class ResultDetailFragment extends Fragment {
             //((TextView) rootView.findViewById(R.id.txt_detail_author)).setText(mItem.getAuthor());
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
             String path = sharedPref.getString("pref_key_path_file", "");
-            //((TextView) rootView.findViewById(R.id.txt_detail_folder)).setText(mItem.getFolder(path));
+            ((TextView) rootView.findViewById(R.id.txt_result_title)).setText(mItem.getTitle());
+            ((TextView) rootView.findViewById(R.id.txt_result_filename)).setText(mItem.getFilename());
+            ((TextView) rootView.findViewById(R.id.txt_result_author)).setText(mItem.getAuthor());
+            ((TextView) rootView.findViewById(R.id.txt_result_abstract)).setText(mItem.getAbstract());
+            ((TextView) rootView.findViewById(R.id.txt_result_ipath)).setText(mItem.getIpath());
+            ((TextView) rootView.findViewById(R.id.txt_result_folder)).setText(mItem.getFolder(path));
+            ((TextView) rootView.findViewById(R.id.txt_result_size)).setText(mItem.getSize().toString());
+            ((TextView) rootView.findViewById(R.id.txt_result_lastmod)).setText(mItem.getMtime().toString());
 
         }
 
