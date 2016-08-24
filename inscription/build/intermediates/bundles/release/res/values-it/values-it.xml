@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="changelog_close">Chiudi</string>
+    <string name="credits_close">Chiudi</string>
+    <string name="title_changelog">Change log</string>
+    <string name="title_credits">Crediti</string>
+</resources>

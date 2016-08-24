@@ -1,0 +1,248 @@
+[
+    {
+        "outputFile": "C:\\Users\\janhb\\AndroidStudioProjects\\Recolldroid\\inscription\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 49,
+                    "endOffset": 100
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\Recolldroid\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 49,
+                        "endOffset": 100
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 47,
+                    "endOffset": 148
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\Recolldroid\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 105,
+                        "endColumn": 47,
+                        "endOffset": 148
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 153,
+                    "endColumn": 54,
+                    "endOffset": 203
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\Recolldroid\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 153,
+                        "endColumn": 54,
+                        "endOffset": 203
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 208,
+                    "endColumn": 49,
+                    "endOffset": 253
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\Recolldroid\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 208,
+                        "endColumn": 49,
+                        "endOffset": 253
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 258,
+                    "endLine": 12,
+                    "endColumn": 12,
+                    "endOffset": 544
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\Recolldroid\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 258,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 544
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 549,
+                    "endLine": 15,
+                    "endColumn": 12,
+                    "endOffset": 704
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\Recolldroid\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 549,
+                        "endLine": 15,
+                        "endColumn": 12,
+                        "endOffset": 704
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\janhb\\AndroidStudioProjects\\WiFi-Sinus\\inscription\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 49,
+                    "endOffset": 100
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\WiFi-Sinus\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 49,
+                        "endOffset": 100
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 47,
+                    "endOffset": 148
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\WiFi-Sinus\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 105,
+                        "endColumn": 47,
+                        "endOffset": 148
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 153,
+                    "endColumn": 54,
+                    "endOffset": 203
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\WiFi-Sinus\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 153,
+                        "endColumn": 54,
+                        "endOffset": 203
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 208,
+                    "endColumn": 49,
+                    "endOffset": 253
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\WiFi-Sinus\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 208,
+                        "endColumn": 49,
+                        "endOffset": 253
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 258,
+                    "endLine": 12,
+                    "endColumn": 12,
+                    "endOffset": 544
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\WiFi-Sinus\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 258,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 544
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 549,
+                    "endLine": 15,
+                    "endColumn": 12,
+                    "endOffset": 704
+                },
+                "from": {
+                    "file": "C:\\Users\\janhb\\AndroidStudioProjects\\WiFi-Sinus\\inscription\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 549,
+                        "endLine": 15,
+                        "endColumn": 12,
+                        "endOffset": 704
+                    }
+                }
+            }
+        ]
+    }
+]

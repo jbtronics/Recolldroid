@@ -1,0 +1,7 @@
+int string changelog_close 0x7f030000
+int string credits_close 0x7f030002
+int string title_changelog 0x7f030001
+int string title_credits 0x7f030003
+int style AppBaseTheme 0x7f040000
+int style AppTheme 0x7f040001
+int xml changelog 0x7f020000
