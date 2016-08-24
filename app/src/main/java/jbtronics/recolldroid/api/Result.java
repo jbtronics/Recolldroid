@@ -19,8 +19,6 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
@@ -54,7 +52,7 @@ public class Result {
     private FileSize size; //dbytes if set, else fbytes
 
 
-    public Result(JSONObject result) throws JSONException
+    public Result(JSONObject result)
     {
         try {
             sha = result.getString("sha");
@@ -91,7 +89,7 @@ public class Result {
 
     private static Date parseTime(String s)
     {
-        if(s.equals("") || s==null)
+        if(s==null || s.equals(""))
         {
             return null;
         }
@@ -316,7 +314,7 @@ public class Result {
      */
     public String getExtension()
     {
-        String ext = "";
+        String ext;
         if(!ipath.equals(""))
         {
             int tmp = ipath.lastIndexOf(".");

@@ -16,7 +16,6 @@
 package jbtronics.recolldroid.api;
 
 import android.util.Base64;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -24,7 +23,6 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 import org.json.JSONArray;
@@ -34,7 +32,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,14 +52,7 @@ public class ResultsRequest extends Request<ArrayList<Result>> {
         this.errorListener = errorListener;
         this.user = user;
         this.pass = pass;
-        if(user.equals("") && pass.equals(""))
-        {
-            need_auth = false;
-        }
-        else
-        {
-            need_auth = true;
-        }
+        need_auth = !(user.equals("") && pass.equals(""));
     }
 
     public ResultsRequest(String url, Listener<ArrayList<Result>> listener, Response.ErrorListener errorListener)
@@ -80,11 +70,11 @@ public class ResultsRequest extends Request<ArrayList<Result>> {
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
 
-            if (json != null) {
+            if (!json.equals("")) {
                 JSONObject root = new JSONObject(json);
                 JSONObject query = root.getJSONObject("query");
                 JSONArray results = root.getJSONArray("results");
-                ArrayList<Result> list = new ArrayList<Result>();
+                ArrayList<Result> list = new ArrayList<>();
 
                 for(int i=0; i < results.length();i++)
                 {

@@ -17,23 +17,13 @@ package jbtronics.recolldroid.api;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Queue;
 
 /**
  * Created by janhb on 18.08.2016.
@@ -59,26 +49,6 @@ public class Query {
     private Boolean complete;
 
 
-    /*
-    public Query(SortType sort,String after,Boolean ascending,String query,Integer page,String dir,String before,ArrayList<Result> results)
-    {
-        this.sort = sort;
-        this.after = after;
-        this.ascending = ascending;
-        this.query = query;
-        if(page>=0)
-        {
-            throw new InputMismatchException("page number must be > 0!");
-        }
-        else
-        {
-            this.page = page;
-        }
-        this.dir = dir;
-        this.before = before;
-        this.results = results;
-    }*/
-
     public Query(String url, Context context, String user, String pass, String term)
     {
         queue = Volley.newRequestQueue(context);
@@ -94,7 +64,7 @@ public class Query {
         options = new QueryOptions();
         page = 1;
         lastpage = 0;
-        results = new ArrayList<Result>();
+        results = new ArrayList<>();
     }
 
     public Query(String url, Context context,String user, String pass, String term, QueryOptions options) {
@@ -110,7 +80,7 @@ public class Query {
         this.options = options;
         page = 1;
         lastpage = 0;
-        results = new ArrayList<Result>();
+        results = new ArrayList<>();
     }
 
     public Query(String url, Context context, String term, QueryOptions options) {
@@ -126,7 +96,7 @@ public class Query {
         this.options = options;
         page = 1;
         lastpage = 0;
-        results = new ArrayList<Result>();
+        results = new ArrayList<>();
     }
 
     public void makeQuery()
@@ -258,47 +228,6 @@ public class Query {
         return getPreviewURL(i);
     }
 
-
-    /*
-    public Query(JSONObject query, JSONArray results)
-    {
-        try {
-            String sort_str = query.getString("sort");
-            after = query.getString("after");
-            Integer ascending_int = query.getInt("ascending");
-            this.query = query.getString("query");
-            page = query.getInt("page");
-            dir = query.getString("dir");
-            before = query.getString("before");
-
-            if(ascending_int==1) {
-                ascending=true;
-            }
-            else {
-                ascending=false;
-            }
-
-            switch(sort_str)
-            {
-                case "relevancyrating":
-                    sort = SortType.relevancyrating;
-                    break;
-                default:
-                    sort = SortType.unknown;
-            }
-
-            this.results = new ArrayList<Result>();
-
-            for(int i=0; i < results.length(); i++){
-                JSONObject obj = results.getJSONObject(i);
-                this.results.add(new Result(obj));
-            }
-
-        } catch (JSONException e) {
-            Log.w("Query","Could not parse JSON:",e);
-        }
-
-    } */
 
     public ArrayList<Result> getResults() {
         return results;

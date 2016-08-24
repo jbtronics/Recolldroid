@@ -139,7 +139,7 @@ public class ResultListActivity extends AppCompatActivity
         }
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView,Query q) {
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView, Query q) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         final ResultItemRecyclerViewAdapter r = new ResultItemRecyclerViewAdapter(q);
@@ -201,7 +201,7 @@ public class ResultListActivity extends AppCompatActivity
                 public void querycompleted(Query sender, int page) {
                     if(sender.getResults().size() == 0) //If got no results
                     {
-                        text.setText("No Results!");
+                        text.setText(R.string.result_no_results);
                         text.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -276,6 +276,7 @@ public class ResultListActivity extends AppCompatActivity
             //holder.mIcon.setImageResource(r.getIconRes());
             holder.mTitle.setCompoundDrawablesWithIntrinsicBounds( r.getIconRes(), 0, 0, 0);
             holder.mFolder.setText(r.getFolder(path));
+            //noinspection deprecation
             holder.mPreview.setText(Html.fromHtml(r.getFormattedSnippet())); //Other methods are API 24 or higher.
 
             if(r.getIpath().equals(""))
@@ -404,6 +405,7 @@ public class ResultListActivity extends AppCompatActivity
 
                 WebView wv = new WebView(ResultListActivity.this);
                 wv.loadUrl(url);
+                //noinspection deprecation
                 wv.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {

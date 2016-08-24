@@ -63,8 +63,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:textAlignment="center"
-            android:visibility="gone"
-            android:gravity="center" />
+            android:visibility="gone" />
 
     </FrameLayout>
 

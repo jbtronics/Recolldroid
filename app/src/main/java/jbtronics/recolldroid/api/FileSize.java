@@ -15,7 +15,6 @@
 
 package jbtronics.recolldroid.api;
 
-import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.InputMismatchException;
@@ -30,7 +29,6 @@ public class FileSize {
     public static final int FACTOR_KB = 1000;
     public static final int FACTOR_MB = 1000 * 1000;
     public static final int FACTOR_GB = 1000 * 1000 * 1000;
-    public static final long FACTOR_TB = 1000 * 1000 * 1000 * 1000;
 
     /**
      * Creates a new file size with the given bytes value.
@@ -50,7 +48,7 @@ public class FileSize {
 
     public static FileSize ParseString(String bytes_str)
     {
-        if(bytes_str==null||bytes_str=="")
+        if(bytes_str.equals(null)||bytes_str.equals(""))
         {
             return null;
         }
@@ -87,13 +85,9 @@ public class FileSize {
         {
             return d / FACTOR_GB;
         }
-        else if(targetunit.contains("T"))   //TB
-        {
-            return d / FACTOR_TB;
-        }
         else
         {
-            return d;
+            return d / FACTOR_B;
         }
     }
 
@@ -121,15 +115,10 @@ public class FileSize {
             tmp = convertUnit("MB");
             unit = "MB";
         }
-        else if(bytes_size>=FACTOR_GB&&bytes_size<FACTOR_TB)
+        else if(bytes_size>=FACTOR_GB)
         {
             tmp = convertUnit("GB");
             unit = "GB";
-        }
-        else if(bytes_size>=FACTOR_TB)
-        {
-            tmp = convertUnit("TB");
-            unit = "TB";
         }
 
         String format = "0.";

@@ -16,7 +16,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Server Connection"
+        android:title="@string/pref_category_connection"
         android:key="pref_key_server_connection">
 
         <!-- NOTE: EditTextPreference accepts EditText attributes. -->
@@ -29,32 +29,32 @@
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Server Address" />
+            android:title="@string/pref_connection_addr" />
 
         <CheckBoxPreference
             android:key="pref_key_auth_enable"
-            android:summary="Activate if server needs auth."
-            android:title="Authentication needed?"
+            android:summary="@string/pref_connection_auth_summ"
+            android:title="@string/pref_connection_auth"
             android:defaultValue="false"
             />
 
         <EditTextPreference
             android:dependency="pref_key_auth_enable"
             android:key="pref_key_auth_user"
-            android:title="Username"
-            android:summary="Input your username" />
+            android:title="@string/pref_connection_user"
+            android:summary="@string/pref_connection_user_summ" />
 
         <EditTextPreference
             android:dependency="pref_key_auth_enable"
-            android:title="Password"
+            android:title="@string/pref_connection_pass"
             android:key="pref_key_auth_pass"
-            android:summary="Input your Password"
+            android:summary="@string/pref_connection_pass_summ"
             android:inputType="textPassword"
             android:password="true" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Paths"
+        android:title="@string/pref_category_paths"
         android:key="pref_key_paths">
 
         <EditTextPreference
@@ -65,17 +65,17 @@
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="File Base Path"/>
-
+            android:title="@string/pref_key_path_base"
+            android:summary="@string/pref_key_path_base_summ"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Preview and Download"
+        android:title="@string/pref_category_preview"
         android:key="pref_key_behaviour">
 
         <CheckBoxPreference
             android:key="pref_key_use_external_preview"
-            android:title="External Browser for preview"
+            android:title="@string/pref_preview_external_browser"
             android:defaultValue="false"
             />
 

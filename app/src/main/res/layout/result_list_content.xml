@@ -14,6 +14,7 @@
   ~ limitations under the License.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:padding="0dp"
     >
@@ -48,7 +49,8 @@
         android:drawableLeft="@drawable/type_file"
         android:drawableStart="@drawable/type_file"
         android:layout_marginLeft="2dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="match_parent"

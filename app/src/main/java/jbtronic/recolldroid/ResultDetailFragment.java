@@ -16,7 +16,6 @@
 package jbtronic.recolldroid;
 
 import android.app.Activity;
-import android.content.ContentProvider;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -25,9 +24,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import jbtronic.recolldroid.dummy.DummyContent;
 import jbtronics.recolldroid.api.Result;
 
 /**
