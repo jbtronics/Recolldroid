@@ -33,6 +33,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -200,6 +201,12 @@ public class ResultListActivity extends AppCompatActivity
             {
                 QueryContentProvider.query = new Query(addr,this,query,options);
             }
+
+            String pagesize = sharedPref.getString("pref_key_json_page_size", "50");
+            Boolean legacyJson = sharedPref.getBoolean("pref_key_use_legacy_json",false);
+
+            QueryContentProvider.query.useLegacyJson(legacyJson);
+            QueryContentProvider.query.setPageSize(Integer.parseInt(pagesize));
 
             QueryContentProvider.query.setOnCompleteHandler(new Query.onQueryComplete() {
                 @Override
@@ -397,6 +404,18 @@ public class ResultListActivity extends AppCompatActivity
                 DownloadManager.Request request = new DownloadManager.Request(
                         Uri.parse(url));
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                //Check if auth needed
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ResultListActivity.this);
+                Boolean auth = sharedPref.getBoolean("pref_key_auth_enable",false);
+                if(auth) {
+                    String user = sharedPref.getString("pref_key_auth_user", "");
+                    String pass = sharedPref.getString("pref_key_auth_pass", "");
+                    String creds = String.format("%s:%s", user, pass);
+                    String auth_str = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP);
+                    request.addRequestHeader("Authorization",auth_str);
+                }
+
                 dm.enqueue(request);
             }
 

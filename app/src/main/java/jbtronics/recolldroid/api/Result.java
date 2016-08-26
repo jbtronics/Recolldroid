@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.util.Date;
 
 import jbtronic.recolldroid.R;
@@ -144,8 +145,27 @@ public class Result {
 
     public Date getMtime()
     {
-        //TODO: Implement Handling if mtime is empty!
-        return mtime;
+        if(mtime!=null) {
+            return mtime;
+        }
+        else if(dmtime!=null)
+        {
+            return dmtime;
+        }
+        else if(fmtime!=null)
+        {
+            return fmtime;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public String getMtimeStr()
+    {
+        DateFormat df;
+        df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM );
+        return df.format(getMtime());
     }
 
     public String getLabel()
@@ -307,6 +327,22 @@ public class Result {
 
 
     }
+
+    public int getIconResWhite()
+    {
+        int res = getIconRes();
+        switch (res)
+        {
+            case R.drawable.type_file:
+                return R.drawable.type_file_white;
+
+
+            default:
+                return getIconRes();
+        }
+
+    }
+
 
     /**
      * Gets the extension of the result file. (without ".")

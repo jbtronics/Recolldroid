@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by janhb on 18.08.2016.
@@ -46,7 +47,9 @@ public class Query {
     private QueryOptions options;
     private onQueryError mOnError;
     private onQueryComplete mOnComplete;
-    private Boolean complete;
+    private Boolean complete=false;
+    private Boolean legacy_json=false;
+    private Integer pagesize=50;
 
 
     public Query(String url, Context context, String term, String user, String pass)
@@ -99,6 +102,21 @@ public class Query {
         results = new ArrayList<>();
     }
 
+    public void setPageSize(Integer size)
+    {
+        if(size>0) {
+            pagesize = size;
+        }
+        else if(size==0){
+            legacy_json = true;
+        }
+    }
+
+    public void useLegacyJson(Boolean value)
+    {
+        legacy_json = value;
+    }
+
     public void makeQuery()
     {
         String url = baseurl + buildQueryParams();
@@ -133,10 +151,20 @@ public class Query {
 
     private String buildQueryParams()
     {
-        String params = "pagedjson";
+        String params;
+        if(legacy_json) {
+            params = "json";
+        }
+        else
+        {
+            params = "pagedjson";
+        }
         try {
             params += "?query=" + URLEncoder.encode(term.trim(), "UTF-8");
-            params += "&page=" +  page.toString();
+            if(!legacy_json) {
+                params += "&page=" + page.toString();
+                params += "&items=" + pagesize.toString();
+            }
             params += "&sort=" + options.getSort().toString();
             params += "&ascending" + options.getAscendingString();
             params += "&dir" + URLEncoder.encode(options.getDir().trim(), "UTF-8");

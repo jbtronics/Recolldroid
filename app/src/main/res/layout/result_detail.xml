@@ -185,6 +185,26 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/view_result_lastmod" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Result_Detail_left"
+        android:text="Snippet:"
+        android:id="@+id/view_result_snippet"
+        android:layout_below="@+id/view_result_lastmod"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="abstract"
+        android:id="@+id/txt_result_snippet"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_result_snippet"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>
 
 </ScrollView>

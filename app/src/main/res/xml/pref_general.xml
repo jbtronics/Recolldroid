@@ -79,6 +79,20 @@
             android:defaultValue="false"
             />
 
+        <EditTextPreference
+            android:title="Json pagesize"
+            android:summary="How many items should be loaded at once.(less = faster, but more reload)"
+            android:key="pref_key_json_page_size"
+            android:defaultValue="50"
+            android:numeric="integer"
+            android:maxLength="3" />
+
+        <CheckBoxPreference
+            android:key="pref_key_use_legacy_json"
+            android:title="Use legacy json mode (very slow!)"
+            android:summary="Will not make use of pagedjson function in the modified webui."
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

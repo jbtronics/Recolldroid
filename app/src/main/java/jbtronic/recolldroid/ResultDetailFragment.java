@@ -27,6 +27,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +100,10 @@ public class ResultDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.txt_result_ipath)).setText(mItem.getIpath());
             ((TextView) rootView.findViewById(R.id.txt_result_folder)).setText(mItem.getFolder(path));
             ((TextView) rootView.findViewById(R.id.txt_result_size)).setText(mItem.getSize().toString());
-            ((TextView) rootView.findViewById(R.id.txt_result_lastmod)).setText(mItem.getMtime().toString());
+            ((TextView) rootView.findViewById(R.id.txt_result_lastmod)).setText(mItem.getMtimeStr());
+
+            TextView snippet = (TextView) rootView.findViewById(R.id.txt_result_lastmod);
+            snippet.setText(Html.fromHtml(mItem.getFormattedSnippet()));
 
         }
 
