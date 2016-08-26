@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2016 Jan Böhmer
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,20 +14,14 @@
   ~ limitations under the License.
   -->
 
-<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:title="Result screen header"
+        android:summary="Select what should be used as header for the result screen"
+        android:key="pref_result_header"
+        android:dialogTitle="What should be used as Header for result screen?"
+        android:entries="@array/pref_result_header_entries"
+        android:entryValues="@array/pref_result_header_values"
+        android:defaultValue="@string/pref_result_header_default" />
 
-    <!-- These settings headers are only used on tablets. -->
-
-    <header
-        android:fragment="jbtronic.recolldroid.SettingsActivity$GeneralPreferenceFragment"
-        android:title="@string/pref_header_general" />
-
-    <header
-        android:fragment="jbtronic.recolldroid.SettingsActivity$ResultPreferenceFragment"
-        android:title="Result Settings" />
-
-    <header
-        android:fragment="jbtronic.recolldroid.SettingsActivity$InfoPreferenceFragment"
-        android:title="Info" />
-
-</preference-headers>
+</PreferenceScreen>

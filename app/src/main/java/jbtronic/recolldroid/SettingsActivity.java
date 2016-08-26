@@ -194,7 +194,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                || InfoPreferenceFragment.class.getName().equals(fragmentName);
+                || InfoPreferenceFragment.class.getName().equals(fragmentName)
+                || ResultPreferenceFragment.class.getName().equals(fragmentName) ;
     }
 
     /**
@@ -283,6 +284,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     return true;
                 }
             });
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class ResultPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_results);
+            setHasOptionsMenu(true);
+
+
         }
 
         @Override

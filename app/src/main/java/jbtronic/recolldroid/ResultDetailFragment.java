@@ -73,11 +73,22 @@ public class ResultDetailFragment extends Fragment {
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab_result);
-            //fab.setImageResource(mItem.getIconRes());
-            //fab.setBackgroundColor(getResources().getColor(R.color.colorDetailFab));
+            fab.setImageResource(mItem.getIconResWhite());
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String prefList = sharedPref.getString("pref_result_header", "title");
             if (appBarLayout != null) {
-                //appBarLayout.setTitle(mItem.getFilename());
-                appBarLayout.setTitle(mItem.getLabel());
+                if(prefList.equals("number"))
+                {
+                    appBarLayout.setTitle("Item #" + getArguments().getInt(ARG_ITEM_ID));
+                }
+                else if(prefList.equals("filename")) {
+                    appBarLayout.setTitle(mItem.getFilename());
+                }
+                else
+                {
+                    appBarLayout.setTitle(mItem.getLabel());
+                }
             }
         }
     }
@@ -102,7 +113,7 @@ public class ResultDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.txt_result_size)).setText(mItem.getSize().toString());
             ((TextView) rootView.findViewById(R.id.txt_result_lastmod)).setText(mItem.getMtimeStr());
 
-            TextView snippet = (TextView) rootView.findViewById(R.id.txt_result_lastmod);
+            TextView snippet = (TextView) rootView.findViewById(R.id.txt_result_snippet);
             snippet.setText(Html.fromHtml(mItem.getFormattedSnippet()));
 
         }

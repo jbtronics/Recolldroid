@@ -335,8 +335,50 @@ public class Result {
         {
             case R.drawable.type_file:
                 return R.drawable.type_file_white;
+            case R.drawable.type_3d:
+                return R.drawable.type_3d_white;
+            case R.drawable.type_android:
+                return R.drawable.type_android_white;
+            case R.drawable.type_apple:
+                return R.drawable.type_apple_white;
+            case R.drawable.type_blender:
+                return R.drawable.type_blender_white;
+            case R.drawable.type_code:
+                return R.drawable.type_code_white;
+            case R.drawable.type_db:
+                return R.drawable.type_db_white;
+            case R.drawable.type_disk:
+                return R.drawable.type_disk_white;
+            case R.drawable.type_excel:
+                return R.drawable.type_excel_white;
+            case R.drawable.type_image:
+                return R.drawable.type_image_white;
+            case R.drawable.type_linux:
+                return R.drawable.type_linux_white;
+            case R.drawable.type_math:
+                return R.drawable.type_math_white;
+            case R.drawable.type_music:
+                return R.drawable.type_music_white;
+            case R.drawable.type_office:
+                return R.drawable.type_office_white;
+            case R.drawable.type_pdf:
+                return R.drawable.type_pdf_white;
+            case R.drawable.type_powerpoint:
+                return R.drawable.type_powerpoint_white;
+            case R.drawable.type_text:
+                return R.drawable.type_text_white;
+            case R.drawable.type_tor:
+                return R.drawable.type_tor_white;
+            case R.drawable.type_video:
+                return R.drawable.type_video_white;
+            case R.drawable.type_windows:
+                return R.drawable.type_windows_white;
+            case R.drawable.type_word:
+                return R.drawable.type_word_white;
+            case R.drawable.type_zip:
+                return R.drawable.type_zip_white;
 
-
+            //Use black item if no white is available
             default:
                 return getIconRes();
         }
